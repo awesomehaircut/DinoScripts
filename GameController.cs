@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-	public float speed;
 	public int size;
 	public int amount;
 	public int frequency;
-	public GameObject obstacle;
 	public Vector3 spawnValue;
-
+	public GameObject obstaclesmall;
+	public GameObject obstaclemedium;
+	public GameObject obstaclebig;
 	// Use this for initialization
 	void Start () {
 	}
@@ -19,11 +19,17 @@ public class GameController : MonoBehaviour {
 	void Update () {
 		if (GameObject.FindGameObjectsWithTag("Cacti").Length < amount)
 		{
-			spawn_cacti();
+			if ((Random.value) < 0.3){
+				spawn_cacti(obstaclesmall);
+			}
+			if ((Random.value) < 0.6){
+				spawn_cacti(obstaclemedium);
+			}
+			spawn_cacti(obstaclebig);
+
 		}
-		
 	}
-	void spawn_cacti(){
+	void spawn_cacti(GameObject obstacle){
 		Vector3 spawnPosition = new Vector3 (spawnValue.x, spawnValue.y, spawnValue.z);
 		Quaternion spawnRotation = Quaternion.identity;
 		Instantiate (obstacle, spawnPosition, spawnRotation);
