@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour {
 
@@ -12,14 +14,27 @@ public class GameController : MonoBehaviour {
 	public GameObject Obstaclebig;
 	
 	// Use this for initialization
-	private void Start () {
+	private void Start()
+	{
 		Debug.Log("Starting");
+		foreach (var cacti in GameObject.FindGameObjectsWithTag("Cacti")){
+			Destroy(cacti);
+			if (Debug.isDebugBuild)
+			{
+				throw new SystemException("This is to start the debugger");
+			}
+		}
 	}
 	
 	// Update is called once per frame
-	private void Update () {
-		if (GameObject.FindGameObjectsWithTag("Cacti").Length >= Amount) return;
-		if ((Time.fixedTime * 5) % Frequency != 0) return;
+	private void Update ()
+	{
+		int amount_of_cacti = GameObject.FindGameObjectsWithTag("Cacti").Length;
+		Debug.Log("Amount of Cacti:");
+		Debug.Log(amount_of_cacti);
+		if (amount_of_cacti >= Amount) return;
+		if (Time.timeSinceLevelLoad < Frequency ) return;
+		Frequency += 1;
 		Debug.Log(Time.fixedTime);
 		var seed = Random.Range(1, 4);
 		switch (seed)

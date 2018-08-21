@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour {
-	public int x = 1;
+public class Movement : MonoBehaviour
+{
+	public float x = 10f;
 
 	// Use this for initialization
 	private void Start () {
@@ -11,6 +12,6 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	private void Update () {
-		transform.Translate(-1,0,0);
+		transform.Translate(x * Time.deltaTime,0,0);
 	}
 }
