@@ -4,34 +4,44 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-	public int size;
-	public int amount;
-	public int frequency;
-	public Vector3 spawnValue;
-	public GameObject obstaclesmall;
-	public GameObject obstaclemedium;
-	public GameObject obstaclebig;
+	public int Amount;
+	public int Frequency;
+	public Vector3 SpawnValue;
+	public GameObject Obstaclesmall;
+	public GameObject Obstaclemedium;
+	public GameObject Obstaclebig;
+	
 	// Use this for initialization
-	void Start () {
+	private void Start () {
+		Debug.Log("Starting");
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (GameObject.FindGameObjectsWithTag("Cacti").Length < amount)
+	private void Update () {
+		if (GameObject.FindGameObjectsWithTag("Cacti").Length >= Amount) return;
+		if ((Time.fixedTime * 5) % Frequency != 0) return;
+		Debug.Log(Time.fixedTime);
+		var seed = Random.Range(1, 4);
+		switch (seed)
 		{
-			if ((Random.value) < 0.3){
-				spawn_cacti(obstaclesmall);
-			}
-			if ((Random.value) < 0.6){
-				spawn_cacti(obstaclemedium);
-			}
-			spawn_cacti(obstaclebig);
-
+			case 1:
+				Debug.Log("Spawning Big");
+                spawn_cacti(Obstaclebig);
+				break;
+			case 2:
+				Debug.Log("Spawning Medium");
+                spawn_cacti(Obstaclemedium);
+				break;
+			default:
+				Debug.Log("Spawning small");
+                spawn_cacti(Obstaclesmall);
+				break;
 		}
 	}
-	void spawn_cacti(GameObject obstacle){
-		Vector3 spawnPosition = new Vector3 (spawnValue.x, spawnValue.y, spawnValue.z);
-		Quaternion spawnRotation = Quaternion.identity;
+
+	private void spawn_cacti(GameObject obstacle){
+		var spawnPosition = new Vector3 (SpawnValue.x, SpawnValue.y, SpawnValue.z);
+		var spawnRotation = Quaternion.identity;
 		Instantiate (obstacle, spawnPosition, spawnRotation);
 	}
 }

@@ -1,15 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class DeathZone : MonoBehaviour
-{
+public class DinoController : MonoBehaviour {
 	private void OnCollisionEnter(Collision other)
 	{
 		if (other.gameObject.tag != "Cacti") return;
-		Debug.Log("Destroying cacti");
-		Destroy(other.gameObject);
-
+		throw new System.NotImplementedException();
 	}
 }
