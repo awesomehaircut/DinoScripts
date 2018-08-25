@@ -12,6 +12,6 @@ public class Movement : MonoBehaviour
 	
 	// Update is called once per frame
 	private void Update () {
-		transform.Translate(x * Time.deltaTime,0,0);
+		transform.Translate(x * -1 * Time.deltaTime,0,0);
 	}
 }
