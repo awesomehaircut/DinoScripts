@@ -13,14 +13,13 @@ public class DinoController : MonoBehaviour
 	private bool _isJumping;
 	private bool _isCoolDown;
 	public GameObject Dino;
+	public GameObject HealthBar;
 
 	private void Update()
 	{
-		if (_isJumping) return;
-        if (!Input.GetButtonDown("Jump")) return;
-		Debug.Log("Jumping!");
-        Dino.GetComponent<Rigidbody>().AddForce(Vector3.up, ForceMode.Impulse);
-		_isJumping = true;
+		if (!Input.GetButtonDown("Jump")) return;
+		Jump();
+		
 	}
 
 	private void OnCollisionEnter(Collision other)
@@ -30,18 +29,36 @@ public class DinoController : MonoBehaviour
 			Debug.Log("Touching the ground");
 			_isJumping = false;
 		}
-		if (other.gameObject.tag != "Cacti") return;
-		if (_isCoolDown)
+
+		if (!other.gameObject.CompareTag("Cacti")) return;
+		if (!_isCoolDown)
 		{
-			Debug.Log(string.Format("CoolDownTimer is {0}", CoolDownTimer));
-			if (_coolDownTime + CoolDownTimer < Time.fixedTime)
-			{
-				_isCoolDown = false;
-				Debug.Log("CoolDown is false");
-			}
+			Damage();
 			return;
 		}
-        Debug.Log("Taking a hit");
+        Debug.Log(string.Format("CoolDownTimer is {0}", CoolDownTimer));
+        if (_coolDownTime + CoolDownTimer < Time.fixedTime)
+        {
+            _isCoolDown = false;
+            Debug.Log("CoolDown is false");
+        }
+
+
+		Damage();
+	}
+
+	private void Jump()
+	{
+		Debug.Log("Trying to Jump");
+		if (_isJumping) return;
+		Debug.Log("Jumping!");
+		Dino.GetComponent<Rigidbody>().AddForce(Vector3.up, ForceMode.Acceleration);
+		_isJumping = true;
+	}
+	
+	private void Damage()
+	{
+		Debug.Log("Taking a hit");
 		if (Health > 1)
 		{
 			Health--;
@@ -52,10 +69,10 @@ public class DinoController : MonoBehaviour
 		Death();
 	}
 
-	private void Death()
+private static void Death()
 	{
 		Debug.LogWarning("Death");
-		SceneManager.LoadScene("_Scene");
+		SceneManager.LoadScene("Testing");
 	}
 }
 
