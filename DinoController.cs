@@ -13,7 +13,6 @@ public class DinoController : MonoBehaviour
 	private bool _isJumping;
 	private bool _isCoolDown;
 	public GameObject Dino;
-	public GameObject HealthBar;
 
 	private void Update()
 	{
@@ -34,17 +33,14 @@ public class DinoController : MonoBehaviour
 		if (!_isCoolDown)
 		{
 			Damage();
+            _isCoolDown = true;
+			_coolDownTime = Time.fixedTime;
 			return;
 		}
         Debug.Log(string.Format("CoolDownTimer is {0}", CoolDownTimer));
-        if (_coolDownTime + CoolDownTimer < Time.fixedTime)
-        {
-            _isCoolDown = false;
-            Debug.Log("CoolDown is false");
-        }
-
-
-		Damage();
+		if (!(_coolDownTime + CoolDownTimer < Time.fixedTime)) return;
+		_isCoolDown = false;
+		Debug.Log("CoolDown is false");
 	}
 
 	private void Jump()
@@ -62,8 +58,6 @@ public class DinoController : MonoBehaviour
 		if (Health > 1)
 		{
 			Health--;
-			_isCoolDown = true;
-			_coolDownTime = Time.fixedTime;
 			return;
 		}
 		Death();
