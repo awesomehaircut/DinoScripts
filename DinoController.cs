@@ -48,7 +48,7 @@ public class DinoController : MonoBehaviour
 		Debug.Log("Trying to Jump");
 		if (_isJumping) return;
 		Debug.Log("Jumping!");
-		Dino.GetComponent<Rigidbody>().AddForce(Vector3.up, ForceMode.Acceleration);
+		Dino.GetComponent<Rigidbody>().AddForce(Vector3.up, ForceMode.Impulse);
 		_isJumping = true;
 	}
 	
