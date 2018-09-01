@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -44,6 +46,7 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	private void Update()
 	{
+		if (Input.GetButtonDown("Cancel")) Menu();
 		if (Time.timeSinceLevelLoad < Frequency) return; // Only do something every so "Frequency"
 		Text.GetComponent<Text>().text = string.Format("\nScore: {0}\t\nHP: {1}\t", Frequency, Dino.GetComponent<DinoController>().Health);
 		int amount_of_cacti = GameObject.FindGameObjectsWithTag("Cacti").Length;
@@ -77,6 +80,12 @@ public class GameController : MonoBehaviour {
 			cacti_motion.x = 6 + Frequency*Difficulty/10;
 			Debug.Log(string.Format("Frequency :{0}", Frequency));
 		}
+	}
+
+	private static void Menu()
+	{
+		SceneManager.UnloadSceneAsync("Testing");
+		SceneManager.LoadScene("Menu");
 	}
 
 	private void spawn_cacti(GameObject obstacle){

@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using NUnit.Framework.Constraints;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class DinoController : MonoBehaviour
 {
 	public int Health = 3;
-	public int CoolDownTimer = 1;
+	public float CoolDownTimer = 0.2f;
 	private float _coolDownTime;
 	private bool _isJumping;
 	private bool _isCoolDown;
@@ -16,8 +16,10 @@ public class DinoController : MonoBehaviour
 
 	private void Update()
 	{
-		if (!Input.GetButtonDown("Jump")) return;
-		Jump();
+		if (Input.anyKeyDown)
+		{
+			Jump();
+		}
 		
 	}
 
@@ -30,7 +32,7 @@ public class DinoController : MonoBehaviour
 		}
 
 		if (!other.gameObject.CompareTag("Cacti")) return;
-		if (!_isCoolDown)
+		if (!_isCoolDown| true)
 		{
 			Damage();
             _isCoolDown = true;
@@ -69,4 +71,3 @@ private static void Death()
 		SceneManager.LoadScene("Testing");
 	}
 }
-
