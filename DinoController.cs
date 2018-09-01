@@ -9,16 +9,26 @@ public class DinoController : MonoBehaviour
 {
 	public int Health = 3;
 	public float CoolDownTimer = 0.2f;
+	public GameObject Dino;
+
+	private bool _isKeyDown;
 	private float _coolDownTime;
 	private bool _isJumping;
 	private bool _isCoolDown;
-	public GameObject Dino;
+	
+	
 
 	private void Update()
 	{
-		if (Input.anyKeyDown)
+		if (Input.anyKey)
 		{
 			Jump();
+			_isKeyDown = true;
+		}
+		if (!Input.anyKey && _isKeyDown)
+		{
+			_isJumping = true;
+			_isKeyDown = false;
 		}
 		
 	}
@@ -50,8 +60,7 @@ public class DinoController : MonoBehaviour
 		Debug.Log("Trying to Jump");
 		if (_isJumping) return;
 		Debug.Log("Jumping!");
-		Dino.GetComponent<Rigidbody>().AddForce(Vector3.up, ForceMode.Impulse);
-		_isJumping = true;
+		Dino.GetComponent<Rigidbody>().AddForce(Vector3.up, ForceMode.VelocityChange);
 	}
 	
 	private void Damage()
