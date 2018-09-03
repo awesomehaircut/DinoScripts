@@ -12,9 +12,7 @@ public class DinoController : MonoBehaviour
 	public GameObject Dino;
 
 	private bool _isKeyDown;
-	private float _coolDownTime;
 	private bool _isJumping;
-	private bool _isCoolDown;
 	
 	
 
@@ -42,17 +40,8 @@ public class DinoController : MonoBehaviour
 		}
 
 		if (!other.gameObject.CompareTag("Cacti")) return;
-		if (!_isCoolDown| true)
-		{
-			Damage();
-            _isCoolDown = true;
-			_coolDownTime = Time.fixedTime;
-			return;
-		}
-        Debug.Log(string.Format("CoolDownTimer is {0}", CoolDownTimer));
-		if (!(_coolDownTime + CoolDownTimer < Time.fixedTime)) return;
-		_isCoolDown = false;
-		Debug.Log("CoolDown is false");
+		/// If hit by a cacti, take damage
+        Damage();
 	}
 
 	private void Jump()
