@@ -18,16 +18,18 @@ public class GameController : MonoBehaviour {
 	public int Difficulty;
 	public GameObject Text;
 	public GameObject Dino;
+	public bool softPause;
 	
 	// Use this for initialization
 	private void Start()
 	{
+		softPause = true;
 		Debug.Log("Starting");
 		Text.GetComponent<Text>().text = string.Format("\nScore: {0}\t\nHP: {1}\t", 0, 0);
 		foreach (var cacti in GameObject.FindGameObjectsWithTag("Cacti"))
 		{
 			/* I don't understand why there's any cacti in the scene when starting the game
-			 But whatever, just delete any that are left over.*/
+	ca	 But whatever, just delete any that are left over.*/
 			Destroy(cacti);
 		}
 
@@ -46,11 +48,16 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	private void Update()
 	{
+		if (Input.anyKeyDown) softPause = false;
+		if (softPause)
+		{
+			return;
+		}
 		if (Input.GetButtonDown("Cancel")) Menu();
 		if (Time.timeSinceLevelLoad < Frequency) return; // Only do something every so "Frequency"
 		Text.GetComponent<Text>().text = string.Format("\nScore: {0}\t\nHP: {1}\t", Frequency, Dino.GetComponent<DinoController>().Health);
-		int amount_of_cacti = GameObject.FindGameObjectsWithTag("Cacti").Length;
-		if (amount_of_cacti >= Amount) return; // Do nothing if too many cacti are in the scene
+		int amountOfCacti = GameObject.FindGameObjectsWithTag("Cacti").Length;
+		if (amountOfCacti >= Amount) return; // Do nothing if too many cacti are in the scene
 		Frequency += 1; // Will use this as score as well as dificulty curve
 
 	/*This spawns a small, medium or large gameobject (or cacti)
@@ -76,8 +83,8 @@ public class GameController : MonoBehaviour {
 		foreach (var cacti in GameObject.FindGameObjectsWithTag("Cacti"))
 		{
 			Debug.Log(string.Format("Changing the speed of :{0}", cacti));
-			Movement cacti_motion = cacti.GetComponent<Movement>();
-			cacti_motion.x = 6 + Frequency*Difficulty/10;
+			Cactus cactiMotion = cacti.GetComponent<Cactus>();
+			cactiMotion.X = 6 + Frequency*Difficulty/100;
 			Debug.Log(string.Format("Frequency :{0}", Frequency));
 		}
 	}
